@@ -1,0 +1,85 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Video;
+
+public class TV : MonoBehaviour
+{
+
+    [SerializeField] private Material defaultMat;
+    [SerializeField] private Material highlightMat;
+
+    private bool switchOn = false;
+    public GameObject targetObjectOn;
+    public GameObject targetObjectOff;
+    public Light tvlight;
+
+
+
+
+    ///SFx references
+    public AudioClip buttonPress;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        tvlight.GetComponent<Light>().enabled = false;
+        targetObjectOn.gameObject.GetComponent<Renderer>().enabled = false;
+        targetObjectOn.gameObject.GetComponent<AudioSource>().volume = 0.0f;
+        targetObjectOff.gameObject.GetComponent<Renderer>().enabled = true;
+    
+    }
+
+
+
+    private void OnMouseDown()
+    {
+
+
+
+        if (switchOn == false)
+        {
+            tvlight.GetComponent<Light>().enabled = true;
+            targetObjectOn.gameObject.GetComponent<Renderer>().enabled = true;
+            targetObjectOn.gameObject.GetComponent<AudioSource>().volume = 1.0f;
+            targetObjectOff.gameObject.GetComponent<Renderer>().enabled = false;
+            GetComponent<AudioSource>().PlayOneShot(buttonPress, 1.0F);
+           
+
+
+        }
+        else if (switchOn == true)
+
+        {
+            tvlight.GetComponent<Light>().enabled = false;
+            targetObjectOn.gameObject.GetComponent<Renderer>().enabled = false;
+            targetObjectOn.gameObject.GetComponent<AudioSource>().volume = 0.0f;
+            targetObjectOff.gameObject.GetComponent<Renderer>().enabled = true;
+            GetComponent<AudioSource>().PlayOneShot(buttonPress, 1.0F);
+           
+
+        }
+
+        switchOn = !switchOn;
+
+
+    }
+
+    private void OnMouseOver()
+    {
+        ////highlight the button ie swap materials
+
+        gameObject.GetComponent<Renderer>().material = highlightMat;
+
+    }
+
+    private void OnMouseExit()
+    {
+        ////highlight the button ie swap materials
+
+        gameObject.GetComponent<Renderer>().material = defaultMat;
+
+    }
+
+
+}
